@@ -1,1 +1,1 @@
-a simple rock-paper-scissors game
+a simple rock-paper-scissors game with ascii art

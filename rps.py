@@ -1,5 +1,5 @@
 from random import choice
-from os import system, name
+from visuals import visualize, clear
 
 OPTIONS = {
     'rock': ('rock', 'r'),
@@ -32,21 +32,18 @@ def get_winner():
     global game_active
     if player_points == BEST_OF:
         game_active = False
-        return 'YOU WON'
+        return 'YOU WON!'
     elif comp_points == BEST_OF:
         game_active = False
         return 'YOU LOST'
     elif player_points == BEST_OF / 2 + 0.5:
         if comp_points < player_points:
             game_active = False
-            return 'YOU WON'
+            return 'YOU WON!'
     elif comp_points == BEST_OF / 2 + 0.5:
         if player_points < comp_points:
             game_active = False
             return 'YOU LOST'
-
-def clear():
-    system('clear') if name == 'posix' else system('cls')
 
 def set_up():
     clear()
@@ -66,15 +63,9 @@ def update(player_choice, comp_choice):
     add_points(player_choice, comp_choice)
     winner = get_winner()
 
-    visualize(player_choice, comp_choice, result, winner)
-
-def visualize(player_choice, comp_choice, result, winner):
-    clear()
-    print(f'| your choice: {player_choice}')
-    print(f'| AI\'s choice: {comp_choice}')
-    print(f'| {result} >>> {player_points}-{comp_points}')
-    if winner != None:
-        print(winner)
+    visualize(
+        player_choice, comp_choice, result, player_points, comp_points, winner
+        )
 
 def main():
     set_up()
