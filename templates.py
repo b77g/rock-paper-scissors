@@ -14,7 +14,8 @@ TEMPLATE = """
     | {10}              {22} |
     | {11}              {23} |
     |                                      |
-    +--------------------------------------+"""
+    +--------------------------------------+
+"""
 
 # all trailing white space in ROCK, PAPER and SCISSORS is intentional
 

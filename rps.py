@@ -47,6 +47,8 @@ def get_winner():
 
 def set_up():
     clear()
+    print('options: (r)ock, (p)aper, (s)cissors')
+
     global BEST_OF
     while BEST_OF not in [1, 3, 5]:
         try:
@@ -54,8 +56,6 @@ def set_up():
         except:
             continue
 
-    print('options: (r)ock, (p)aper, (s)cissors')
-    input('hit ENTER to start ')
     clear()
 
 def update(player_choice, comp_choice):
