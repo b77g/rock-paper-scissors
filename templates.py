@@ -1,4 +1,6 @@
-TEMPLATE = """
+# all trailing whitespace is intentional
+
+TEMPLATE = r'''
     +--------------------------------------+
     | your choice              AI's choice |
     | {0}              {12} |
@@ -15,11 +17,11 @@ TEMPLATE = """
     | {11}              {23} |
     |                                      |
     +--------------------------------------+
-"""
+'''
 
-# all trailing white space in ROCK, PAPER and SCISSORS is intentional
+EMPTY = '           \n' * 12
 
-ROCK = """           
+ROCK = r'''           
            
            
            
@@ -28,11 +30,11 @@ ROCK = """
  / )|_|_|_|
 | |-^-^-^-'
 |     ||  |
-\\     '   /
+\     '   /
  |       | 
- |       | """
+ |       | '''
 
-PAPER = """    .-.    
+PAPER = r'''    .-.    
   .-| |-.  
   | | | |  
   | | | |-.
@@ -41,11 +43,11 @@ PAPER = """    .-.
  / )    `-|
 | | `--   |
 |     ||  |
-\\     '   /
+\     '   /
  |       | 
- |       | """
+ |       | '''
 
-SCISSORS = """    .-.    
+SCISSORS = r'''    .-.    
   .-| |    
   | | |    
   | | |    
@@ -54,6 +56,6 @@ SCISSORS = """    .-.
  / )  |_|_|
 | |   `-^-'
 |     ||  |
-\\     '   /
+\     '   /
  |       | 
- |       | """
+ |       | '''

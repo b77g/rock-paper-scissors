@@ -4,22 +4,18 @@ from templates import *
 def clear():
     system('clear') if name == 'posix' else system('cls')
 
-def visualize(choice1, choice2, result, points1, points2, winner):
-    clear()
+def get_templates(choice1, choice2, valid_choices):
+    '''match `choice1` and `choice2` to a template in `templates.py`'''
+    TEMPLATES = {'rock': ROCK, 'paper': PAPER, 'scissors': SCISSORS}
+    return TEMPLATES.get(choice1, EMPTY), TEMPLATES.get(choice2, EMPTY)
 
+def show(choice1, choice2, result, points1, points2, winner):
+    '''format and print TEMPLATE string in `templates.py`'''
+    clear()
     if len(result) != 4:
         result += ' '
     if winner == None:
         winner = ' ' * 8
-
-    from rps import OPTIONS
-    TEMPLATES = {'rock': ROCK, 'paper': PAPER, 'scissors': SCISSORS}
-
-    for key, value in OPTIONS.items():
-        if choice1 in value:
-            choice1 = TEMPLATES[key]
-        if choice2 in value:
-            choice2 = TEMPLATES[key]
 
     print(TEMPLATE.format(
         choice1[0:11],
@@ -49,6 +45,7 @@ def visualize(choice1, choice2, result, points1, points2, winner):
         choice2[132:143],
 
         result,
-        points1, points2,
+        points1,
+        points2,
         winner
-        ))
+    ))

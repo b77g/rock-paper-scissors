@@ -1,12 +1,12 @@
 # rock-paper-scissors
-a simple rock-paper-scissors CLI game with ascii art.
+a simple & extensible rock-paper-scissors CLI game with ascii art.
 
 ### dependencies
 python's built-in `random` and `os` modules.
 
 ### installation
 download the zip folder (or clone the repostory)
-and execute `rps.py` on your console.
+and run `rps.py`.
 
 ### how to play
 there are three game formats: best-of-one, best-of-three and best-of-five.
@@ -52,6 +52,10 @@ until the game ends.
 
 ### credits
 thanks to [ascii.co.uk](https://ascii.co.uk/art/finger) for the ascii art.
+
+### to-do
+- [ ] show choice name on template
+- [ ] keyword to show choice options while playing
 
 ### license
 This program is free software: you can redistribute it and/or modify

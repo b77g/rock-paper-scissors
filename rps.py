@@ -1,82 +1,76 @@
 from random import choice
-from visuals import visualize, clear
+from visuals import get_templates, show, clear
 
-OPTIONS = {
-    'rock': ('rock', 'r'),
-    'paper': ('paper', 'p'),
-    'scissors': ('scissors', 's')
-    }
-BEST_OF = None
 game_active = True
+best_of = None
 player_points = 0
-comp_points = 0
+ai_points = 0
+WIN_CASES = (
+    ('rock', 'scissors'),
+    ('paper', 'rock'),
+    ('scissors', 'paper')
+)
+VALID_CHOICES = set(
+    [j for i in WIN_CASES for j in i]
+    + [j[0] for i in WIN_CASES for j in i]
+)
 
-def parse(choice1, choice2):
-    if choice1 in OPTIONS[choice2]:
+def match(choice):
+    '''match `choice` to a valid word in `WIN_CASES`'''
+    CHOICE_WORDS = (x for x in VALID_CHOICES if len(x) > 1)
+    for valid_choice in CHOICE_WORDS:
+        if choice == valid_choice or choice[0] == valid_choice[0]:
+            return valid_choice
+
+def parse(player_choice, ai_choice):
+    if player_choice == ai_choice:
         return 'DRAW'
-    elif choice1 in OPTIONS['rock']:
-        return 'WIN' if choice2 in OPTIONS['scissors'] else 'LOSS'
-    elif choice1 in OPTIONS['paper']:
-        return 'WIN' if choice2 in OPTIONS['rock'] else 'LOSS'
-    elif choice1 in OPTIONS['scissors']:
-        return 'WIN' if choice2 in OPTIONS['paper'] else 'LOSS'
+    return 'WIN' if (player_choice, ai_choice) in WIN_CASES else 'LOSS'
 
-def add_points(player_choice, comp_choice):
-    global player_points, comp_points
-    if parse(player_choice, comp_choice) == 'WIN':
+def add_points(player_choice, ai_choice):
+    global player_points, ai_points
+    if parse(player_choice, ai_choice) == 'WIN':
         player_points += 1
-    elif parse(player_choice, comp_choice) == 'LOSS':
-        comp_points += 1
+    elif parse(player_choice, ai_choice) == 'LOSS':
+        ai_points += 1
 
 def get_winner():
     global game_active
-    if player_points == BEST_OF:
+    majority = best_of / 2 + 0.5
+    if player_points == majority or ai_points == majority:
         game_active = False
-        return 'YOU WON!'
-    elif comp_points == BEST_OF:
-        game_active = False
-        return 'YOU LOST'
-    elif player_points == BEST_OF / 2 + 0.5:
-        if comp_points < player_points:
-            game_active = False
-            return 'YOU WON!'
-    elif comp_points == BEST_OF / 2 + 0.5:
-        if player_points < comp_points:
-            game_active = False
-            return 'YOU LOST'
+        return 'YOU WON!' if player_points > ai_points else 'YOU LOST'
 
-def set_up():
+def setup():
     clear()
-    print('options: (r)ock, (p)aper, (s)cissors')
-
-    global BEST_OF
-    while BEST_OF not in [1, 3, 5]:
+    print(
+        'options: '
+        + ', '.join(f'({x[0]}){x[1:]}' for x in VALID_CHOICES if len(x) > 1)
+    )
+    global best_of
+    while best_of not in (1, 3, 5):
         try:
-            BEST_OF = int(input('best of (1/3/5): '))
+            best_of = int(input('best-of (1/3/5): '))
         except:
             continue
-
     clear()
 
-def update(player_choice, comp_choice):
-    result = parse(player_choice, comp_choice)
-    add_points(player_choice, comp_choice)
-    winner = get_winner()
-
-    visualize(
-        player_choice, comp_choice, result, player_points, comp_points, winner
-        )
+def update(player_choice, ai_choice):
+    player_choice = match(player_choice)
+    ai_choice = match(ai_choice)
+    result = parse(player_choice, ai_choice)
+    add_points(player_choice, ai_choice)
+    templates = get_templates(player_choice, ai_choice, VALID_CHOICES)
+    show(*templates, result, player_points, ai_points, get_winner())
 
 def main():
-    set_up()
-
+    setup()
     while game_active:
-        comp_choice = choice([k for k in OPTIONS])
-        player_choice = input('- your choice: ').strip().lower()
-
-        if player_choice in ('rock', 'r', 'paper', 'p', 'scissors', 's'):
-            update(player_choice, comp_choice)
-        elif player_choice == 'q':
+        player_choice = input('> your choice: ').strip().lower()
+        ai_choice = choice(tuple(VALID_CHOICES))
+        if player_choice in VALID_CHOICES:
+            update(player_choice, ai_choice)
+        elif player_choice in ('quit', 'exit'):
             quit()
 
 if __name__ == '__main__':
