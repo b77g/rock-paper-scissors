@@ -1,20 +1,28 @@
 from os import system, name
-from templates import *
+
+from templates import TEMPLATE, EMPTY, ROCK, PAPER, SCISSORS
+
 
 def clear():
     system('clear') if name == 'posix' else system('cls')
 
-def get_templates(choice1, choice2, valid_choices):
+
+def get_templates(choice1, choice2):
     '''match `choice1` and `choice2` to a template in `templates.py`'''
-    TEMPLATES = {'rock': ROCK, 'paper': PAPER, 'scissors': SCISSORS}
+    TEMPLATES = {
+        'rock': ROCK,
+        'paper': PAPER,
+        'scissors': SCISSORS
+    }
     return TEMPLATES.get(choice1, EMPTY), TEMPLATES.get(choice2, EMPTY)
+
 
 def show(choice1, choice2, result, points1, points2, winner):
     '''format and print TEMPLATE string in `templates.py`'''
     clear()
-    if len(result) != 4:
+    if result == 'WIN':
         result += ' '
-    if winner == None:
+    if not winner:
         winner = ' ' * 8
 
     print(TEMPLATE.format(
