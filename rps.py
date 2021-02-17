@@ -1,7 +1,7 @@
 from math import ceil as ceiling
 from random import choice as random_choice
 
-from visuals import get_templates, show, clear
+from visuals import show, clear
 
 game_active = True
 best_of = None
@@ -52,6 +52,7 @@ def show_options():
     print(
         'options: '
         + ', '.join(f'({word[0]}){word[1:]}' for word in VALID_WORDS)
+        + '.'
     )
 
 
@@ -66,12 +67,10 @@ def get_best_of():
 
 
 def update(player_choice, ai_choice):
-    player_choice = match(player_choice)
-    ai_choice = match(ai_choice)
-    result = parse(player_choice, ai_choice)
-    add_points(player_choice, ai_choice)
-    templates = get_templates(player_choice, ai_choice)
-    show(*templates, result, player_points, ai_points, get_winner())
+    choices = match(player_choice), match(ai_choice)
+    result = parse(*choices)
+    add_points(*choices)
+    show(choices, result, player_points, ai_points, get_winner())
 
 
 def main():
@@ -86,6 +85,10 @@ def main():
 
         if player_choice in VALID_CHOICES:
             update(player_choice, ai_choice)
+
+        elif player_choice == 'help':
+            show_options()
+            print('type <quit> or <exit> to quit the game.')
 
         elif player_choice in ('quit', 'exit'):
             quit()

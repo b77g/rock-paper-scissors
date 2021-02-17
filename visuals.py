@@ -1,59 +1,67 @@
 from os import system, name
 
-from templates import TEMPLATE, EMPTY, ROCK, PAPER, SCISSORS
+from templates import TEMPLATE, TEMPLATE_SPACES, EMPTY, ROCK, PAPER, SCISSORS
 
 
 def clear():
     system('clear') if name == 'posix' else system('cls')
 
 
-def get_templates(choice1, choice2):
-    '''match `choice1` and `choice2` to a template in `templates.py`'''
-    TEMPLATES = {
+def get_template(choice):
+    '''match `choice` to a template in `templates.py`'''
+    return {
         'rock': ROCK,
         'paper': PAPER,
         'scissors': SCISSORS
-    }
-    return TEMPLATES.get(choice1, EMPTY), TEMPLATES.get(choice2, EMPTY)
+    }.get(choice, EMPTY)
 
 
-def show(choice1, choice2, result, points1, points2, winner):
+def show(choices, result, player_points, ai_points, winner):
     '''format and print TEMPLATE string in `templates.py`'''
     clear()
+
+    space_between_choice_names = ' ' * (
+        (TEMPLATE_SPACES-2) - len(choices[0]+choices[1])
+    )
     if result == 'WIN':
         result += ' '
     if not winner:
         winner = ' ' * 8
+    template1 = get_template(choices[0])
+    template2 = get_template(choices[1])
 
     print(TEMPLATE.format(
-        choice1[0:11],
-        choice1[12:23],
-        choice1[24:35],
-        choice1[36:47],
-        choice1[48:59],
-        choice1[60:71],
-        choice1[72:83],
-        choice1[84:95],
-        choice1[96:107],
-        choice1[108:119],
-        choice1[120:131],
-        choice1[132:143],
+        template1[0:11],
+        template1[12:23],
+        template1[24:35],
+        template1[36:47],
+        template1[48:59],
+        template1[60:71],
+        template1[72:83],
+        template1[84:95],
+        template1[96:107],
+        template1[108:119],
+        template1[120:131],
+        template1[132:143],
 
-        choice2[0:11],
-        choice2[12:23],
-        choice2[24:35],
-        choice2[36:47],
-        choice2[48:59],
-        choice2[60:71],
-        choice2[72:83],
-        choice2[84:95],
-        choice2[96:107],
-        choice2[108:119],
-        choice2[120:131],
-        choice2[132:143],
+        template2[0:11],
+        template2[12:23],
+        template2[24:35],
+        template2[36:47],
+        template2[48:59],
+        template2[60:71],
+        template2[72:83],
+        template2[84:95],
+        template2[96:107],
+        template2[108:119],
+        template2[120:131],
+        template2[132:143],
 
+        choices[0],
+        space_between_choice_names,
+        choices[1],
         result,
-        points1,
-        points2,
+        player_points,
+        ai_points,
         winner
     ))
